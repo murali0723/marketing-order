@@ -8,15 +8,21 @@ const app = express();
 app.use(express.json());
 
 // Routes
-app.use('/api', orderRoutes);
+app.use('/api/orders', orderRoutes); // Updated route for clarity
 
 // Database Connection
-// mongoose.connect('ENTER YOUR DB', { useNewUrlParser: true, useUnifiedTopology: true })
-//     .then(() => console.log('Database connected'))
-//     .catch(err => console.error('Database connection error:', err));
+const DB_URI = 'mongodb+srv://ddinfotechwork:aefhfo4IqVz1TlLv@cluster0.96wge.mongodb.net/orderdata?retryWrites=true&w=majority&appName=Cluster0'; 
+// // Replace 'orderDB' with your database name
+mongoose
+    .connect(DB_URI)
+    .then(() => console.log('Database connected successfully'))
+    .catch((err) => {
+        console.error('Database connection error:', err.message);
+        process.exit(1); // Exit process if database connection fails
+    });
 
 // Start Server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`Server is running on http://localhost:${PORT}`);
 });
